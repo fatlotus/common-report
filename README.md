@@ -11,9 +11,9 @@ First, _what is it_? Well, this as-of-yet-unnamed project is basically an applic
 Video!
 ----------
 
-Here's a [video](video) demonstrating the basic sorts of things I've implemented. Due to technical glitches at the time of its filming, the video is twice as fast as usual. Nonetheless, there's several highlights to the movie: OpenNI calibration; full-screen widgets; the infrared view; moving widgets; text entry; and special command modules.
+Here's a [video][kinect-demo-video] demonstrating the basic sorts of things I've implemented. Due to technical glitches at the time of its filming, the video is twice as fast as usual. Nonetheless, there's several highlights to the movie: OpenNI calibration; full-screen widgets; the infrared view; moving widgets; text entry; and special command modules.
 
-[video]: http://vimeo.com/33249708)
+[kinect-demo-video]: http://vimeo.com/33249708
 
 License
 -------
