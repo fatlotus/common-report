@@ -8,6 +8,8 @@ First, _what is it_? Well, this as-of-yet-unnamed project is basically an applic
 
 (further explanation and documentation forthcoming! --ed)
 
+Note that thanks go to the University of Chicago Laboratory Schools and particularly Baker Franke for hardware support and logistics and, specifically from the latter, a fantastic six years of mentorship. Credit goes also to Sam Reynolds and the nerds of UH 202 for their suggestions and support.
+
 Video!
 ----------
 
@@ -41,4 +43,5 @@ A standard MIT license; from `license.md`:
 > SOFTWARE.
 
 Happy Holidays,
+
 Jeremy Archer
