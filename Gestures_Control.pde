@@ -1,4 +1,3 @@
-import processing.video.*;
 import SimpleOpenNI.*;
 import java.io.*;
 
@@ -7,7 +6,6 @@ ArrayList<Person> people;
 ArrayList<Target> targets, targetsToAddNextCycle;
 PFont monaco, helvetica;
 Target fullScreenTarget;
-MovieMaker movieMaker;
 
 class Hand {
     int x, y, z, deltaX, deltaY, deltaZ;
@@ -141,10 +139,6 @@ class Hand {
         return z;
     }
 }
-
-/* caufield */
-String[] maturityFilter    = {"FUCK", "SHIT", "CUNT", "DICK", "PENIS", "VAGINA"};
-String[] hilariousVersions = {"BOAT", "CRAP", "HAT", "RICHARD", "ANATOMY", "ANATOMY"};
 
 class Person {
     Hand left, right;
@@ -624,14 +618,6 @@ class KeyboardTarget extends Rectangle {
    
    void typeLetter(String letter) {
        if (letter.equals("@")) {
-           if (letters.equals("DONE")) {
-               movieMaker.finish();
-           }
-           
-           for (int i = 0; i < maturityFilter.length; i++) {
-               letters = letters.replace(maturityFilter[i], hilariousVersions[i]);
-           }
-           
            targetsToAddNextCycle.add(new RefrigeratorMagnet(letters));
            
            letters = "";
@@ -722,8 +708,6 @@ void setup() {
     
     monaco = loadFont("Monaco.vlw");
     helvetica = loadFont("Helvetica-Bold-48.vlw");
-    
-    movieMaker = new MovieMaker(this, width, height, "/Users/jarcher/Desktop/Demo.mov");
 }
 
 void onNewUser(int userID) {
@@ -832,6 +816,4 @@ void draw() {
         p.left.draw();
         p.right.draw();
     }
-    
-    movieMaker.addFrame();
 }
