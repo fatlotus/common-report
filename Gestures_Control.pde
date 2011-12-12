@@ -622,7 +622,8 @@ class KeyboardTarget extends Rectangle {
            
            letters = "";
        } else if (letter.equals("<")) {
-           letters = letters.substring(0, letters.length() - 1);
+           if (!letters.equals("")) {
+               letters = letters.substring(0, letters.length() - 1);
        } else {
            letters += letter;
        }
