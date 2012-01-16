@@ -30,7 +30,7 @@ Once you do, create a new sketch in Processing entitled Gestures_Control (you ca
 Playing With It
 ---
 
-In my experience, the calibration phase is always the most difficult. You need to have your entire body visible in the scene view (the little box with the figures in the lower-right-hand corner), and your arms must be placed at approximately right-angles to your head, as in the figure below:
+In my experience, the calibration phase is always the most difficult. You need to have your entire body visible in the scene view (the little box with the figures in the lower-right-hand corner), and your arms must be placed at symmetric right-angles to your head, as in the figure below:
 
                   
     +      /    \      +
@@ -52,7 +52,7 @@ In my experience, the calibration phase is always the most difficult. You need t
          ____  ____
          |  |  |   |
 
-Try to be as still as you can.
+Try to be as still as you can, and try to match the picture as well as possible. It's unclear what works, but removing jackets and backpacks seems to help, as does avoiding touching other objects while in view of the camera. Try to calibrate yourself from the camera view: your arms should be orthogonal relative to the Kinect, not necessarily by "feeling."
 
 Technical Comments
 ====
