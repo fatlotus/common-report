@@ -1064,8 +1064,8 @@ class KeyboardTarget extends Rectangle {
             * Likewise, a back-chevron ("<") deletes the
             * previous character entered, if there is one.
             */
-            
-           if (letters != "")
+           
+           if (!letters.equals("")) {
                letters = letters.substring(0, letters.length() - 1);
        } else {
            /* 
