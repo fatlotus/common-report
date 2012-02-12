@@ -1067,6 +1067,7 @@ class KeyboardTarget extends Rectangle {
            
            if (!letters.equals("")) {
                letters = letters.substring(0, letters.length() - 1);
+           }
        } else {
            /* 
             * Anything else is simply appended to the buffer.
