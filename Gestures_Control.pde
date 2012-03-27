@@ -1208,9 +1208,9 @@ void setup() {
  * view of the camera.
  */
 void onNewUser(int userID) {
-    System.out.println("New User: " + userID + "; start pose detection!");
+    System.out.println("New User: " + userID + "; start autocalibration!");
     
-    openni.startPoseDetection("Psi", userID);
+	openni.requestCalibrationSkeleton(userID, true);
     
     people.add(new Person(userID));
 }
