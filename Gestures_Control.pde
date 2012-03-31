@@ -66,8 +66,8 @@ class Hand {
      * meaning that 
      */
     void moveHand(int newX, int newY, int newZ) {
-        x += deltaX = (newX - x + 1) / 2;
-        y += deltaY = (newY - y + 1) / 2;
+        x += deltaX = (newX - x + 1) / 4;
+        y += deltaY = (newY - y + 1) / 4;
         z += deltaZ = (newZ - z + 1);
         
         /*
@@ -120,7 +120,7 @@ class Hand {
         float c1 = openni.getJointPositionSkeleton(
             /* user ID */     person.getID(),
             /* joint */       isLeftHand ? SimpleOpenNI.SKEL_LEFT_HAND : SimpleOpenNI.SKEL_RIGHT_HAND,
-            /* destination */ projYourHand
+            /* destination */ yourHand
         );
         
         /*
@@ -131,7 +131,7 @@ class Hand {
         float c2 = openni.getJointPositionSkeleton(
             /* user ID */     person.getID(),
             /* joint */       SimpleOpenNI.SKEL_TORSO,
-            /* destination */ projYourTorso
+            /* destination */ yourTorso
         );
         
         /*
@@ -141,7 +141,7 @@ class Hand {
          * Since the NI documentation is fairly sparse in this
          * manner, this factor is pretty arbitrary.
          */
-        if (c1 <= 1f || c2 <= 1f) {
+        if (c1 <= 0.001f || c2 <= 0.001f) {
             visible = false;
             return;
         }
@@ -150,19 +150,19 @@ class Hand {
          * Convert the perspective vectors (angle and distance) to
          * real-world (x, y, z) vectors.
          */
-        openni.convertProjectiveToRealWorld(projYourTorso, yourTorso);
-        openni.convertProjectiveToRealWorld(projYourHand, yourHand);
+        // openni.convertProjectiveToRealWorld(projYourTorso, yourTorso);
+        // openni.convertProjectiveToRealWorld(projYourHand, yourHand);
         
         /*
          * Scale the vectors arbitrarily to the screen size.
          * They are currently in milimeters, so we need to
          * convert them to screen (pixel) co-ordinates.
          * 
-         * Here, we're using a grab box of four meters wide,
-         * two meters tall, and about half a meter deep.
+         * Here, we're using a grab box of two meters wide,
+         * one meter tall, and about half a meter deep.
          */
-        int newX = (int)(((yourHand.x - yourTorso.x + 2000.0) / 4000.0) * width);
-        int newY = (int)(((yourHand.y - yourTorso.y + 1000.0) / 2000.0) * height);
+        int newX = (int)(((yourHand.x - yourTorso.x) / 1500.0 + 0.5f) * width);
+        int newY = (int)(((yourTorso.y - yourHand.y) / 800.0 + 0.5f) * height);
         int newZ = (int)(((yourTorso.z - yourHand.z) / 450.0) * 100.0);
         
         /*
@@ -841,27 +841,6 @@ class SceneViewTarget extends Rectangle {
         rect(0, 0, w, h);
         
         image(openni.sceneImage(), 0, 0, w, h);
-        
-        if (grabbedBy != null)
-            stroke(200, 0, 0);
-        else
-            stroke(200, 200, 0);
-        
-        strokeWeight(5);
-        
-        strokeWeight(10);
-        stroke(200, 200, 0);
-        noFill();
-        
-        scale(0.5, 0.5);
-        
-        for (Person p : people) {
-            openni.drawLimb(p.getID(), SimpleOpenNI.SKEL_LEFT_ELBOW, SimpleOpenNI.SKEL_LEFT_HAND);
-            openni.drawLimb(p.getID(), SimpleOpenNI.SKEL_RIGHT_ELBOW, SimpleOpenNI.SKEL_RIGHT_HAND);
-            
-            openni.drawLimb(p.getID(), SimpleOpenNI.SKEL_LEFT_ELBOW, SimpleOpenNI.SKEL_TORSO);
-            openni.drawLimb(p.getID(), SimpleOpenNI.SKEL_RIGHT_ELBOW, SimpleOpenNI.SKEL_TORSO);
-        }
     }
     
     /*
@@ -986,11 +965,13 @@ class KeyboardTarget extends Rectangle {
     */
    KeyboardTarget() {
        x = y = 0;
-       w = 600;
-       h = 600;
+       w = width / 3;
+       h = width / 3;
        letters = "";
        
        String[] rows = { topRow, secondRow, thirdRow, forthRow, fifthRow };
+       
+       int sz = w / 6;
        
        /*
         * Loop through and create buttons for each key.
@@ -999,7 +980,7 @@ class KeyboardTarget extends Rectangle {
            for (int j = 0; j < 5; j += 1) {
                if (rows[j].charAt(i) != ' ') {
                    addSubTarget(new ExplodingButton (
-                       /* location and size */ i * 100, j * 100 + 100, 90, 90,
+                       /* location and size */ i * sz, j * sz + sz, sz * 9 / 10, sz * 9 / 10,
                        /* label */             rows[j].substring(i, i + 1),
                        /* parent */            this
                    ));
@@ -1038,8 +1019,8 @@ class KeyboardTarget extends Rectangle {
         * Display the current text entered.
         */
        fill(255);
-       textFont(helvetica, 90);
-       text(letters, 10, 80);
+       textFont(helvetica, w / 6 * 9 / 10 * 0.8f);
+       text(letters, w / 6 / 10, w / 6 * 9 / 10 * 0.8f);
    }
    
    /*
@@ -1156,7 +1137,7 @@ class ExplodingButton implements SubTarget {
      */
     void updateHovering(boolean enabled) {
         if (enabled && hoveredOver) {
-            powerLevel += 8.0;
+            powerLevel += 5.0;
         } else {
             powerLevel -= 2.0;
         }
@@ -1208,9 +1189,9 @@ void setup() {
  * view of the camera.
  */
 void onNewUser(int userID) {
-    System.out.println("New User: " + userID + "; start pose detection!");
+    System.out.println("New User: " + userID + "; start autocalibration!");
     
-    openni.startPoseDetection("Psi", userID);
+    openni.requestCalibrationSkeleton(userID, true);
     
     people.add(new Person(userID));
 }
